@@ -164,32 +164,39 @@ const Page = () => {
         <DefaultLayout>
             {data && (
                 <>
-                    <div className="flex gap-10 px-4 mb-6">
-                        <div className="h-28 w-28 rounded-full">
+                    <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 px-4 py-6 bg-white rounded-2xl shadow-lg text-black mb-7">
+                        {/* Avatar */}
+                        <div className="w-28 h-28 rounded-full overflow-hidden shadow-md">
                             <img
-                                className="object-cover w-full h-full rounded-full"
                                 src={data.avatar}
                                 alt={data.username}
+                                className="w-full h-full object-cover"
                             />
                         </div>
-                        <div>
-                            <h1 className="text-xl font-bold">{data.username}</h1>
-                            <h1 className="font-semibold mt-2">Hari Kerja: Senin - Sabtu</h1>
-                            <h1 className="font-semibold">Hari Libur: Minggu</h1>
-                            <h1 className="font-semibold">
+
+                        {/* Info */}
+                        <div className="text-center sm:text-left">
+                            <h1 className="text-2xl font-bold">{data.username}</h1>
+                            <p className="text-sm font-medium mt-2">
+                                Hari Kerja: <span className="font-semibold">Senin - Sabtu</span>
+                            </p>
+                            <p className="text-sm font-medium">
+                                Hari Libur: <span className="font-semibold">Minggu</span>
+                            </p>
+                            <p className="text-sm font-medium">
                                 Status:{' '}
-                                <span className="italic">
-                                    {
-                                        data.schedule?.[new Date().toLocaleDateString('id-ID', {
-                                            weekday: 'long',
-                                        }).toLowerCase()]?.is_active
-                                            ? 'Sedang bekerja'
-                                            : 'Sedang libur'
-                                    }
+                                <span className="italic font-semibold text-primary">
+                                    {data.schedule?.[
+                                        new Date().toLocaleDateString('id-ID', { weekday: 'long' }).toLowerCase()
+                                    ]?.is_active
+                                        ? 'Sedang bekerja'
+                                        : 'Sedang libur'}
                                 </span>
-                            </h1>
+                            </p>
                         </div>
                     </div>
+
+
 
                     <Table aria-label="Tabel Jadwal"
                         classNames={{
@@ -281,12 +288,12 @@ const Page = () => {
                                     </TableCell>
 
                                     <TableCell>
-                                        <ButtonPrimary
-                                            onClick={handleSave}
-                                            className="py-2 w-full rounded-lg"
-                                        >
+
+                                        <button onClick={handleSave} disabled={!item.is_active} className={`py-2 w-full rounded-lg  text-white
+                                             ${item.is_active ? 'bg-primary' : 'bg-gray-400 cursor-not-allowed'}`} >
                                             Simpan
-                                        </ButtonPrimary>
+                                        </button>
+
                                     </TableCell>
                                 </TableRow>
                             )}
