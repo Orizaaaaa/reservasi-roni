@@ -191,7 +191,12 @@ const Page = () => {
                         </div>
                     </div>
 
-                    <Table aria-label="Tabel Jadwal">
+                    <Table aria-label="Tabel Jadwal"
+                        classNames={{
+                            th: 'bg-secondary text-white font-semibold text-center ',
+                            td: 'text-black text-center',
+                        }}
+                    >
                         <TableHeader>
                             <TableColumn key="name">HARI</TableColumn>
                             <TableColumn key="is_active">STATUS</TableColumn>
