@@ -117,42 +117,47 @@ const Page = () => {
 
     return (
         <DefaultLayout>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div className="bg-primary rounded-2xl p-6 shadow-md text-white">
-                    <h1 className="text-2xl font-semibold">Jumlah Barberman Aktif</h1>
-                    <h2 className="text-4xl font-extrabold mt-2">{totalActiveBarbers}</h2>
+            {/* Section 1: Cards Summary */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div className="bg-gradient-to-br from-emerald-700 via-emerald-800 to-emerald-900 rounded-2xl p-6 shadow-xl text-white transition hover:scale-[1.01]">
+                    <h1 className="text-xl md:text-2xl font-semibold">Jumlah Barberman Aktif</h1>
+                    <h2 className="text-4xl font-extrabold mt-3">{totalActiveBarbers}</h2>
                 </div>
-                <div className="bg-primary rounded-2xl p-6 shadow-md text-white">
-                    <h1 className="text-2xl font-semibold">Total Booking Hari Ini</h1>
-                    <h2 className="text-4xl font-extrabold mt-2">{totalTodayBooking}</h2>
+                <div className="bg-gradient-to-br from-emerald-700 via-emerald-800 to-emerald-900 rounded-2xl p-6 shadow-xl text-white transition hover:scale-[1.01]">
+                    <h1 className="text-xl md:text-2xl font-semibold">Total Booking Hari Ini</h1>
+                    <h2 className="text-4xl font-extrabold mt-3">{totalTodayBooking}</h2>
                 </div>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow-md">
-                <h1 className="text-xl font-bold text-primary mb-4">Jumlah Antrian</h1>
+            {/* Section 2: Antrian */}
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+                <h1 className="text-xl md:text-2xl font-bold text-emerald-800 mb-6">Jumlah Antrian</h1>
 
                 {reservationsByBarber.length > 0 ? (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {reservationsByBarber.map((barber, index) => (
-                            <div key={index} className="bg-gray-50 p-5 rounded-xl shadow-sm hover:shadow-md transition-all">
-                                <h2 className="text-lg font-semibold text-primary mb-2">Capster {barber.barberName}</h2>
-                                <p className="text-3xl font-extrabold text-black my-4">{barber.count}</p>
+                            <div
+                                key={index}
+                                className="bg-gray-50 border border-gray-200 p-5 rounded-xl shadow-sm hover:shadow-lg transition-all duration-200"
+                            >
+                                <h2 className="text-lg font-semibold text-emerald-700 mb-2">Capster {barber.barberName}</h2>
+                                <p className="text-3xl font-bold text-gray-900 my-4">{barber.count}</p>
 
                                 <div className="overflow-x-auto rounded-lg">
                                     <table className="min-w-full text-sm">
-                                        <thead className="text-gray-600 font-semibold bg-gray-100">
+                                        <thead className="text-gray-700 font-semibold bg-gray-100">
                                             <tr>
-                                                <th className="py-3 pr-6 text-left">Nama Customer</th>
-                                                <th className="py-3 pr-6 text-left">Jam</th>
-                                                <th className="py-3 pr-6 text-left">Email</th>
+                                                <th className="py-3 px-4 text-left">Nama Customer</th>
+                                                <th className="py-3 px-4 text-left">Jam</th>
+                                                <th className="py-3 px-4 text-left">Email</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {barber.reservations.map((reservation, idx) => (
-                                                <tr key={idx} className="hover:bg-gray-100 transition">
-                                                    <td className="py-3 pr-6 text-gray-900">{reservation.name}</td>
-                                                    <td className="py-3 pr-6 text-gray-900">{reservation.hour}:00</td>
-                                                    <td className="py-3 pr-6 text-gray-900">{reservation.email}</td>
+                                                <tr key={idx} className="hover:bg-gray-100 transition-all">
+                                                    <td className="py-3 px-4 text-gray-900">{reservation.name}</td>
+                                                    <td className="py-3 px-4 text-gray-900">{reservation.hour}:00</td>
+                                                    <td className="py-3 px-4 text-gray-900">{reservation.email}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -168,6 +173,7 @@ const Page = () => {
                 )}
             </div>
         </DefaultLayout>
+
 
     )
 }
