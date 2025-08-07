@@ -208,25 +208,34 @@ function Page({ }: Props) {
             </div>
 
             {capters?.map((item: any) => (
-                <div key={item._id} className="bg-white shadow-md rounded-2xl p-5 mb-6 transition hover:shadow-lg">
-                    <div className="flex flex-col items-center md:flex-row md:items-start md:gap-6">
-                        <div className="w-28 h-52 md:w-40 md:h-56 mb-4 md:mb-0">
+                <div
+                    key={item._id}
+                    className="bg-white shadow-lg rounded-2xl p-6 mb-6 transition hover:shadow-xl border border-gray-100"
+                >
+                    {/* Header: Avatar dan Info */}
+                    <div className="flex flex-col md:flex-row items-center md:items-start md:gap-6">
+                        <div className="w-28 h-52 md:w-40 md:h-56 mb-4 md:mb-0 rounded-xl overflow-hidden shadow-md">
                             <img
-                                className="rounded-xl mx-auto w-full h-full object-cover"
-                                src={item.avatar || 'https://infokalteng.co/foto_berita/135642-dbb76965-0732-4b1b-bbe2-cbea751844c6.jpeg'}
+                                src={
+                                    item.avatar ||
+                                    'https://infokalteng.co/foto_berita/135642-dbb76965-0732-4b1b-bbe2-cbea751844c6.jpeg'
+                                }
                                 alt={item.username}
+                                className="w-full h-full object-cover"
                             />
                         </div>
 
-                        <div className="md:text-left px-2 md:px-0 flex-1">
-                            <h1 className="text-lg font-bold text-center md:text-left text-black">{item.username}</h1>
-                            <h2 className="text-sm text-gray-500 mb-2 text-center md:text-left">{item.spesialis}</h2>
-                            <p className="text-sm text-gray-700">{item.description}</p>
+                        <div className="text-center md:text-left flex-1">
+                            <h1 className="text-xl font-semibold text-gray-800">{item.username}</h1>
+                            <p className="text-sm text-emerald-700 font-medium mb-2">{item.spesialis}</p>
+                            <p className="text-sm text-gray-600">{item.description}</p>
                         </div>
                     </div>
 
-                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mt-5 gap-4">
-                        <div className="grid grid-cols-3 gap-4">
+                    {/* Album & Actions */}
+                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mt-6 gap-4">
+                        {/* Album Preview */}
+                        <div className="grid grid-cols-3 gap-3">
                             {item.album?.length > 0 ? (
                                 item.album.slice(0, 3).map((imageUrl: string, index: number) => {
                                     if (index === 2 && item.album.length > 3) {
@@ -235,14 +244,14 @@ function Page({ }: Props) {
                                             <div
                                                 key={index}
                                                 onClick={() => openModalGalery(item)}
-                                                className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center cursor-pointer relative"
+                                                className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center cursor-pointer relative overflow-hidden"
                                             >
                                                 <img
                                                     src={imageUrl}
                                                     alt={`album-${index}`}
-                                                    className="w-full h-full object-cover rounded-lg opacity-30"
+                                                    className="w-full h-full object-cover rounded-lg opacity-40"
                                                 />
-                                                <span className="absolute text-white font-semibold text-sm">+{remainingCount}</span>
+                                                <span className="absolute text-white font-bold text-sm z-10">+{remainingCount}</span>
                                             </div>
                                         );
                                     }
@@ -251,36 +260,42 @@ function Page({ }: Props) {
                                         <img
                                             onClick={() => openModalGalery(item)}
                                             key={index}
-                                            className="w-20 h-20 object-cover rounded-lg cursor-pointer"
+                                            className="w-20 h-20 object-cover rounded-lg cursor-pointer shadow-sm hover:shadow-md transition"
                                             src={imageUrl}
                                             alt={`album-${index}`}
                                         />
                                     );
                                 })
                             ) : (
-                                Array(3).fill(0).map((_, index) => (
-                                    <div key={index} className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
-                                        <span className="text-gray-400 text-xs">No Image</span>
-                                    </div>
-                                ))
+                                Array(3)
+                                    .fill(0)
+                                    .map((_, index) => (
+                                        <div
+                                            key={index}
+                                            className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-xs border border-dashed"
+                                        >
+                                            No Image
+                                        </div>
+                                    ))
                             )}
                         </div>
 
+                        {/* Action Buttons */}
                         <div className="flex flex-wrap gap-3">
                             <button
-                                className="py-2 px-3 rounded-xl bg-red-700 text-white"
+                                className="py-2 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white transition"
                                 onClick={() => openModalDelete(item)}
                             >
                                 Hapus Capster
                             </button>
                             <ButtonPrimary
-                                className="py-2 px-3 rounded-xl"
+                                className="py-2 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition"
                                 onClick={() => openModalCreate(item._id, item || [])}
                             >
                                 + Tambah Foto
                             </ButtonPrimary>
                             <button
-                                className="py-2 px-3 rounded-xl bg-yellowCustom text-white"
+                                className="py-2 px-4 rounded-xl bg-yellow-500 hover:bg-yellow-600 text-white transition"
                                 onClick={() => router.push(`/admin_capster/edit_capster/${item._id}`)}
                             >
                                 Edit Capster
@@ -289,6 +304,7 @@ function Page({ }: Props) {
                     </div>
                 </div>
             ))}
+
 
 
             <ButtonPrimary

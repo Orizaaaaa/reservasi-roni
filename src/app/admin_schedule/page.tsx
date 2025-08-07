@@ -35,66 +35,77 @@ const page = (props: Props) => {
         .toLowerCase()
     return (
         <DefaultLayout>
-            {capters.map((item: any, index) => {
-                const todaySchedule = item.schedule?.[today]
-                const isWorkingToday = todaySchedule?.is_active
+            <div className="grid grid-cols-1 gap-6">
+                {capters.map((item: any, index: number) => {
+                    const todaySchedule = item.schedule?.[today];
+                    const isWorkingToday = todaySchedule?.is_active;
 
-                return (
-                    <div className="p-3 border-2 border-slate-300 rounded-lg mb-4" key={index}>
-                        <div className="flex gap-10 px-4">
-                            <div className="h-28 w-28 rounded-full">
-                                <img
-                                    className="object-cover w-full h-full rounded-full"
-                                    src={item.avatar}
-                                    alt={item.username}
-                                />
+                    return (
+                        <div
+                            key={index}
+                            className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 transition hover:shadow-md"
+                        >
+                            {/* Header Info */}
+                            <div className="flex flex-col md:flex-row items-center gap-6">
+                                {/* Avatar */}
+                                <div className="w-28 h-28 rounded-full overflow-hidden shadow-md">
+                                    <img
+                                        src={item.avatar}
+                                        alt={item.username}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+
+                                {/* Info */}
+                                <div className="flex-1 text-center md:text-left">
+                                    <h1 className="text-xl font-bold text-gray-800">{item.username}</h1>
+                                    <p className="text-sm text-gray-600 mt-2">Hari Kerja: <span className="font-medium">Senin - Sabtu</span></p>
+                                    <p className="text-sm text-gray-600">Hari Libur: <span className="font-medium">Minggu</span></p>
+                                    <p className="text-sm mt-1">
+                                        Status:{' '}
+                                        <span className={`font-semibold ${isWorkingToday ? 'text-emerald-600' : 'text-red-500'} italic`}>
+                                            {isWorkingToday ? 'Sedang bekerja' : 'Sedang libur'}
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
 
-                            <div>
-                                <h1 className="text-xl font-bold">{item.username}</h1>
-                                <h1 className="font-semibold mt-2">Hari Kerja: Senin - Sabtu</h1>
-                                <h1 className="font-semibold">Hari Libur: Minggu</h1>
-                                <h1 className="font-semibold">
-                                    Status:{' '}
-                                    <span className="italic">
-                                        {isWorkingToday ? 'Sedang bekerja' : 'Sedang libur'}
-                                    </span>
-                                </h1>
+                            {/* Jadwal Mingguan */}
+                            <div className="mt-6">
+                                <h2 className="font-semibold text-gray-700 mb-2">Jam Kerja</h2>
+                                <div className="grid grid-cols-3 md:grid-cols-7 gap-4 text-center text-sm">
+                                    {days.map((day) => {
+                                        const schedule = item?.schedule?.[day.key];
+                                        const isActive = schedule?.is_active;
+                                        const jamKerja = schedule?.jam_kerja;
+
+                                        return (
+                                            <div key={day.key} className="p-2 rounded-lg bg-gray-50 border">
+                                                <h3 className="font-medium text-gray-800">{day.label}</h3>
+                                                <p className={`mt-1 ${isActive ? 'text-gray-800' : 'text-gray-400 italic'}`}>
+                                                    {isActive ? jamKerja : '-'}
+                                                </p>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* Button */}
+                            <div className="mt-6 text-right">
+                                <ButtonPrimary
+                                    className="py-2 px-4 rounded-xl"
+                                    onClick={() => router.push(`/admin_schedule/set_schedule/${item._id}`)}
+                                >
+                                    Atur Jadwal
+                                </ButtonPrimary>
                             </div>
                         </div>
-
-                        <h1 className="font-medium mt-4 px-4">Jam Kerja</h1>
-                        <div className="grid grid-cols-3 gap-4 md:grid-cols-7 mt-2 text-sm">
-                            {days.map((day) => {
-                                const schedule = item?.schedule?.[day.key]
-                                const isActive = schedule?.is_active
-                                const jamKerja = schedule?.jam_kerja
-
-                                return (
-                                    <div
-                                        key={day.key}
-                                        className="gap-2 items-center font-light mx-auto text-center"
-                                    >
-                                        <h1 className="font-medium">{day.label}</h1>
-                                        <h1 className={isActive ? "" : "text-gray-400 italic"}>
-                                            {isActive ? jamKerja : "-"}
-                                        </h1>
-                                    </div>
-                                )
-                            })}
-                        </div>
-
-                        <div className="px-4">
-                            <ButtonPrimary className="py-1 px-3 mt-5 rounded-xl" onClick={() => router.push(`/admin_schedule/set_schedule/${item._id}`)} >
-                                Atur Jadwal
-                            </ButtonPrimary>
-                        </div>
-                    </div>
-                )
-            })}
-
-
+                    );
+                })}
+            </div>
         </DefaultLayout>
+
     )
 }
 
