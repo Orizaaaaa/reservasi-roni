@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const axiosInterceptor = axios.create({
-    baseURL: 'https://booking-barber-pi.vercel.app',
+    baseURL: 'https://roni-rust.vercel.app',
     // timeout: 5000,
 });
 
