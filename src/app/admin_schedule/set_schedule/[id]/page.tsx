@@ -176,13 +176,8 @@ const Page = () => {
 
                         {/* Info */}
                         <div className="text-center sm:text-left">
-                            <h1 className="text-2xl font-bold">{data.username}</h1>
-                            <p className="text-sm font-medium mt-2">
-                                Hari Kerja: <span className="font-semibold">Senin - Sabtu</span>
-                            </p>
-                            <p className="text-sm font-medium">
-                                Hari Libur: <span className="font-semibold">Minggu</span>
-                            </p>
+                            <h1 className="text-2xl font-bold mb-3">{data.username}</h1>
+                            <p >email: {data.email}</p>
                             <p className="text-sm font-medium">
                                 Status:{' '}
                                 <span className="italic font-semibold text-primary">
