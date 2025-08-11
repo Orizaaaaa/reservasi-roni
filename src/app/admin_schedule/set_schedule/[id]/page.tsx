@@ -289,8 +289,8 @@ const Page = () => {
 
                                     <TableCell>
 
-                                        <button onClick={handleSave} disabled={!item.is_active} className={`py-2 w-full rounded-lg  text-white
-                                             ${item.is_active ? 'bg-primary' : 'bg-gray-400 cursor-not-allowed'}`} >
+                                        <button onClick={handleSave} className={`py-2 w-full rounded-lg  text-white
+                                             bg-primary`} >
                                             Simpan
                                         </button>
 
