@@ -30,7 +30,7 @@ const page = () => {
             </div>
 
             {/* Booking Details Card */}
-            <div className="w-full max-w-md bg-black rounded-3xl shadow-xl p-6 sm:p-8">
+            <div className="w-full max-w-md bg-primary rounded-3xl shadow-xl p-6 sm:p-8">
                 {/* Detail Item: Nama */}
                 <div className="flex justify-between items-center py-3 border-b border-gray-200">
                     <span className="text-white text-base sm:text-lg font-medium">Nama : </span>
@@ -69,7 +69,7 @@ const page = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <button className="bg-yellowCustom hover:bg-yellowCustom text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                        <button className="bg-secondary hover:bg-yellowCustom text-white  py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                             Hubungi Admin
                         </button>
                     </a>
