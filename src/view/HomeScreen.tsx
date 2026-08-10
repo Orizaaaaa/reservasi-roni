@@ -129,7 +129,7 @@ export default function HomeScreen() {
                         </div>
 
 
-                        <h1 className="text text-sm text-grayCustom mt-6 mb-3" >PRICE LIST KABARBERSHOP</h1>
+                        <h1 className="text text-sm text-grayCustom mt-6 mb-3" >PRICE LIST SUMA BARBERSHOP</h1>
 
                         <div className="mb-5">
                             <Swiper
