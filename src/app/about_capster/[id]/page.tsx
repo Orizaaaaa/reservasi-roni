@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react'
 import { FaCrown, FaHeart, FaStar } from 'react-icons/fa'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-
+// Import Swiper styles
 type Props = {}
 
 const page = (props: Props) => {
