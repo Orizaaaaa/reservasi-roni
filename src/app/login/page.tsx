@@ -143,6 +143,12 @@ const Login = () => {
                         />
                     </div>
 
+                    <div className="flex justify-end">
+                        <Link href="/forgot-password" className="text-sm text-emerald-200 hover:underline">
+                            Lupa Password?
+                        </Link>
+                    </div>
+
                     {errorLogin && <p className="text-red-300 text-sm text-center">{errorLogin}</p>}
 
                     <ButtonPrimary

@@ -9,6 +9,8 @@ export function middleware(req: NextRequest) {
     const publicMatchers: Array<(p: string) => boolean> = [
         p => p === '/',                          // home
         p => p === '/login',
+        p => p === '/forgot-password',
+        p => p === '/reset-password',
         p => p === '/booking',
         p => p === '/home',
         p => p === '/history_booking',           // <- perbaiki: awali dengan '/'
@@ -44,6 +46,6 @@ export const config = {
         // Semua path kecuali:
         // - api dan aset statik
         // - rute publik yang memang bebas
-        '/((?!api|_next/static|_next/image|favicon.ico|login|register|forgot-password|$|booking|home|history_booking|about_capster/.*|booking_bils/.*).*)',
+        '/((?!api|_next/static|_next/image|favicon.ico|login|register|forgot-password|reset-password|$|booking|home|history_booking|about_capster/.*|booking_bils/.*).*)',
     ],
 };

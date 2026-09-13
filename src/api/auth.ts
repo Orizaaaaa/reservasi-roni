@@ -20,3 +20,21 @@ export const registerUser = async (formRegister: any, callback: any) => {
             callback(false, err);
         });
 };
+
+export const forgotPasswordService = async (email: string, callback: any) => {
+    await axios.post(`${url}/users/forgot-password`, { email })
+        .then((res) => {
+            callback(true, res.data);
+        }).catch((err) => {
+            callback(false, err.response?.data || err);
+        });
+};
+
+export const resetPasswordService = async (formReset: any, callback: any) => {
+    await axios.post(`${url}/users/reset-password`, formReset)
+        .then((res) => {
+            callback(true, res.data);
+        }).catch((err) => {
+            callback(false, err.response?.data || err);
+        });
+};
