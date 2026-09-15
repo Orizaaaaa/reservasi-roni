@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { IoIosArrowBack } from 'react-icons/io';
-import { FaWhatsapp } from 'react-icons/fa';
+import { HiOutlineMail } from 'react-icons/hi';
 import { Spinner } from '@heroui/react';
 import InputForm from '@/elements/input/InputForm';
 import ButtonPrimary from '@/elements/buttonPrimary';
@@ -15,38 +15,55 @@ const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
-    const [waData, setWaData] = useState<{ waUrl: string; resetUrl: string } | null>(null);
+    const [successMsg, setSuccessMsg] = useState('');
+    const [submittedEmail, setSubmittedEmail] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setErrorMsg('');
-        setWaData(null);
+        setSuccessMsg('');
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email) {
             setErrorMsg('*Email tidak boleh kosong');
             return;
-        } else if (!emailRegex.test(email)) {
+        }
+        if (!emailRegex.test(email)) {
             setErrorMsg('*Format email tidak valid');
             return;
         }
 
         setLoading(true);
 
-        await forgotPasswordService(email, (status: boolean, res: any) => {
-            setLoading(false);
-            if (status) {
-                const waUrl = res.waUrl;
-                const resetUrl = res.resetUrl;
-                setWaData({ waUrl, resetUrl });
-
-                if (waUrl) {
-                    window.open(waUrl, '_blank');
+        try {
+            await forgotPasswordService(email, (status: boolean, res: any) => {
+                setLoading(false);
+                if (status) {
+                    setSubmittedEmail(email);
+                    setSuccessMsg(
+                        (typeof res?.message === 'string' && res.message) ||
+                        'Link reset password telah dikirim ke email Anda. Cek inbox atau folder spam.'
+                    );
+                    return;
                 }
-            } else {
-                setErrorMsg(res.message || '*Pengguna dengan email ini tidak ditemukan');
-            }
-        });
+
+                const apiMessage =
+                    (typeof res?.message === 'string' && res.message) ||
+                    (typeof res?.data?.message === 'string' && res.data.message) ||
+                    '*Pengguna dengan email ini tidak ditemukan';
+                setErrorMsg(apiMessage);
+            });
+        } catch {
+            setLoading(false);
+            setErrorMsg('*Terjadi kesalahan. Silakan coba lagi.');
+        }
+    };
+
+    const resetForm = () => {
+        setSuccessMsg('');
+        setSubmittedEmail('');
+        setEmail('');
+        setErrorMsg('');
     };
 
     return (
@@ -67,37 +84,34 @@ const ForgotPassword = () => {
                 <div className="text-center my-4">
                     <h1 className="text-xl font-bold">Lupa Password</h1>
                     <p className="text-sm text-white/70 mt-1">
-                        Masukkan email akun admin Anda untuk mendapatkan link reset password via WhatsApp (085150589797).
+                        Masukkan email akun admin Anda. Kami akan mengirim link reset password ke email tersebut.
                     </p>
                 </div>
 
-                {waData ? (
+                {successMsg ? (
                     <div className="space-y-4 text-center">
                         <div className="bg-emerald-800/60 border border-emerald-400 text-emerald-100 p-4 rounded-lg text-sm space-y-2">
-                            <p className="font-semibold">Link Reset Password Berhasil Dibuat!</p>
+                            <p className="font-semibold">Email berhasil dikirim!</p>
                             <p className="text-xs opacity-90">
-                                WhatsApp telah dibuka secara otomatis. Kirim pesan ke nomor <strong>085150589797</strong> untuk menerima link reset.
+                                Link reset password telah dikirim ke <strong>{submittedEmail || email}</strong>.
+                                Link berlaku selama <strong>15 menit</strong>. Cek juga folder spam jika belum muncul.
                             </p>
                         </div>
 
-                        <a
-                            href={waData.waUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2 w-full font-semibold py-2.5 rounded-lg bg-green-600 hover:bg-green-500 transition-all text-white shadow-lg"
+                        <ButtonPrimary
+                            typeButon="button"
+                            onClick={resetForm}
+                            className="rounded-lg w-full font-semibold py-2 bg-primary transition-all duration-200 text-white"
                         >
-                            <FaWhatsapp size={20} />
-                            Kirim via WhatsApp (085150589797)
-                        </a>
+                            Kirim Ulang ke Email Lain
+                        </ButtonPrimary>
 
-                        <div className="pt-2">
-                            <Link
-                                href={waData.resetUrl}
-                                className="text-xs text-emerald-200 underline hover:text-white"
-                            >
-                                Atau langsung reset di sini
-                            </Link>
-                        </div>
+                        <Link
+                            href="/login"
+                            className="block text-sm text-emerald-200 underline hover:text-white"
+                        >
+                            Kembali ke Login
+                        </Link>
                     </div>
                 ) : (
                     <form className="space-y-6" onSubmit={handleSubmit}>
@@ -115,10 +129,12 @@ const ForgotPassword = () => {
                             typeButon="submit"
                             className="rounded-lg w-full font-semibold py-2 bg-primary transition-all duration-200 text-white flex items-center justify-center gap-2"
                         >
-                            {loading ? <Spinner className="w-5 h-5" size="sm" color="white" /> : (
+                            {loading ? (
+                                <Spinner className="w-5 h-5" size="sm" color="default" />
+                            ) : (
                                 <>
-                                    <FaWhatsapp size={18} />
-                                    <span>Reset Password via WhatsApp</span>
+                                    <HiOutlineMail size={18} />
+                                    <span>Kirim Link ke Email</span>
                                 </>
                             )}
                         </ButtonPrimary>
